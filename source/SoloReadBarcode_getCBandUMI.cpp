@@ -240,7 +240,7 @@ void SoloReadBarcode::getCBandUMI(char **readSeq, char **readQual, uint64 *readL
         };
     };
 
-    if ( pSolo.type != pSolo.SoloTypes::CB_UMI_Simple ) {
+    if ( pSolo.type != pSolo.SoloTypes::CB_UMI_Simple && pSolo.type != pSolo.SoloTypes::CB_UMI_Complex) {
         for (uint64 ix=0; ix<( P.pSolo.bL>0 ? P.pSolo.bL : bQual.size() ); ix++) {//bL==0 use the whole barcode read for quality scores histogram
             qualHist[(uint8)bQual[ix]]++;
         };
@@ -350,6 +350,11 @@ void SoloReadBarcode::getCBandUMI(char **readSeq, char **readQual, uint64 *readL
             return;
         };
 
+        // Modified: Add UMI quality
+        for (uint64 ix=0; ix<umiQual.size(); ix++) {
+                qualHist[(uint8)umiQual[ix]]++;
+        };
+
         if ( pSolo.umiL == 0 )
             pSolo.umiL = umiSeq.size();
 
@@ -371,8 +376,13 @@ void SoloReadBarcode::getCBandUMI(char **readSeq, char **readQual, uint64 *readL
                     cbMatchGood=false;
                 };
             };
+            // Modified: add barcode quality
+            for (uint64 ix=0; ix<cbQual1.size(); ix++) {
+                qualHist[(uint8)cbQual1[ix]]++;
+            };
             cbSeq  += cbSeq1;
             cbQual += cbQual1;
+
             
             if (!cbMatchGood)
                 continue; //continue - to be able to record full cbSeq, cbQual, but no need to match to the WL
@@ -418,7 +428,7 @@ void SoloReadBarcode::getCBandUMI(char **readSeq, char **readQual, uint64 *readL
             };
         };
         //cbSeq.pop_back();//remove last "_" from file
-        cbQual.pop_back();
+        //cbQual.pop_back();
         
         if (cbMatchGood) {
             cbMatchString=to_string(cbMatchInd[0]);
