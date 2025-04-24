@@ -371,8 +371,8 @@ void SoloReadBarcode::getCBandUMI(char **readSeq, char **readQual, uint64 *readL
                     cbMatchGood=false;
                 };
             };
-            cbSeq  += cbSeq1 + "_";
-            cbQual += cbQual1 + "_";
+            cbSeq  += cbSeq1;
+            cbQual += cbQual1;
             
             if (!cbMatchGood)
                 continue; //continue - to be able to record full cbSeq, cbQual, but no need to match to the WL
@@ -417,7 +417,7 @@ void SoloReadBarcode::getCBandUMI(char **readSeq, char **readQual, uint64 *readL
                 };
             };
         };
-        cbSeq.pop_back();//remove last "_" from file
+        //cbSeq.pop_back();//remove last "_" from file
         cbQual.pop_back();
         
         if (cbMatchGood) {

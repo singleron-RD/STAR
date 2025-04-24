@@ -523,8 +523,8 @@ void ParametersSolo::complexWLstrings() {
         };
         
         for (auto &cb : cbV) 
-            cbWLstr[ii] += convertNuclInt64toString(cb.wl[cb.iLen][cb.iCB], cb.iLen) + "_";
-        cbWLstr[ii].pop_back();
+            cbWLstr[ii] += convertNuclInt64toString(cb.wl[cb.iLen][cb.iCB], cb.iLen);
+        //cbWLstr[ii].pop_back();
         
         cbV[0].iCB++;//shift by one for the next CB
     };
